@@ -4,7 +4,7 @@ extern crate rayon;
 
 use rayon::prelude::*;
 
-error_chain! {}
+error_chain!{}
 
 fn run() -> Result<()> {
     let v = vec![6, 2, 1, 9, 3, 8, 11];
