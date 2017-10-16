@@ -9,15 +9,12 @@ error_chain!{}
 #[derive(Debug)]
 struct Person {
     first_name: String,
-    last_name: String,
     age: u32,
 }
 
 impl PartialEq for Person {
     fn eq(&self, other: &Person) -> bool {
-        self.first_name == other.first_name &&
-            self.last_name == other.last_name &&
-            self.age == other.age
+        self.first_name == other.first_name && self.age == other.age
     }
 }
 fn run() -> Result<()> {
@@ -37,24 +34,35 @@ fn run() -> Result<()> {
     }
 
     // Person example
-    let v: Vec<Person> = vec![Person {first_name: String::from("John"),
-                                      last_name: String::from("Smith"),
-                                      age: 48},
-                              Person {first_name: String::from("Will"),
-                                      last_name: String::from("Smith"),
-                                      age: 22},
-                              Person {first_name: String::from("Will"),
-                                      last_name: String::from("Iam"),
-                                      age: 32},
-                              Person {first_name: String::from("Jane"),
-                                      last_name: String::from("Doe"),
-                                      age: 29}];
-    let p = v.par_iter().find_any(|&ref x| x.first_name == "Will" && x.age > 30);
+    let v: Vec<Person> = vec![
+        Person {
+            first_name: String::from("John"),
+            age: 48,
+        },
+        Person {
+            first_name: String::from("Will"),
+            age: 22,
+        },
+        Person {
+            first_name: String::from("Will"),
+            age: 32,
+        },
+        Person {
+            first_name: String::from("Jane"),
+            age: 29,
+        },
+    ];
+    let p = v.par_iter().find_any(
+        |&ref x| x.first_name == "Will" && x.age > 30,
+    );
     if let Some(found_p) = p {
-        assert_eq!(Person {first_name: String::from("Will"),
-                           last_name: String::from("Iam"),
-                           age: 32},
-                   *found_p);
+        assert_eq!(
+            Person {
+                first_name: String::from("Will"),
+                age: 32,
+            },
+            *found_p
+        );
     }
     Ok(())
 }
